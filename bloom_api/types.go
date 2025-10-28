@@ -27,12 +27,16 @@ type FilterWorker struct {
 	Queue  chan FilterTask
 }
 
-/*
-FilterTask Action should be one of:
-*/
-
 type CreateFilterRequest struct {
 	ID                string  `json:"id"`
 	NAdd              uint64  `json:"n_add"`
 	FalsePositiveProb float64 `json:"false_positive_prob"`
+}
+
+type AddElementsRequest struct {
+	Elements []interface{} `json:"elements"`
+}
+
+type CheckElementsRequest struct {
+	Elements []interface{} `json:"elements"`
 }
