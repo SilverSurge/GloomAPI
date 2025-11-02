@@ -1,8 +1,6 @@
 package bloomapi
 
 import (
-	"sync"
-
 	"github.com/SilverSurge/Gloom/bloom"
 )
 
@@ -29,7 +27,6 @@ type FilterWorker struct {
 	ID     string
 	Filter *bloom.Bloom
 	Queue  chan FilterTask
-	mu     sync.RWMutex
 }
 
 type CreateFilterRequest struct {

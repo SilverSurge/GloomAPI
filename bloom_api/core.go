@@ -22,7 +22,6 @@ func (fw *FilterWorker) addElements(task *FilterTask) {
 	req, ok := task.Args.(AddElementsRequest)
 	if !ok {
 		task.Resp <- fmt.Errorf("invalid args for AddElements")
-		close(task.Resp)
 		return
 	}
 
@@ -34,14 +33,12 @@ func (fw *FilterWorker) addElements(task *FilterTask) {
 		"message": fmt.Sprintf("%d elements added to filter '%s'", len(req.Elements), fw.ID),
 	}
 	task.Resp <- response
-	close(task.Resp)
 }
 
 func (fw *FilterWorker) checkElements(task *FilterTask) {
 	req, ok := task.Args.(CheckElementsRequest)
 	if !ok {
 		task.Resp <- fmt.Errorf("invalid args for CheckElements")
-		close(task.Resp)
 		return
 	}
 
@@ -54,5 +51,4 @@ func (fw *FilterWorker) checkElements(task *FilterTask) {
 		"results": results,
 	}
 	task.Resp <- response
-	close(task.Resp)
 }

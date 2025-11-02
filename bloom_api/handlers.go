@@ -61,7 +61,7 @@ func createFilterHandler(c *gin.Context) {
 		newW := &FilterWorker{
 			ID:     req.ID,
 			Filter: bloom.NewBloomDefault(req.ID, nBits, nHash), // assume NewDefault() returns a usable Bloom
-			Queue:  make(chan FilterTask, 256),
+			Queue:  make(chan FilterTask, poolSize),
 		}
 
 		go newW.run()
@@ -122,8 +122,9 @@ func addElementsHandler(c *gin.Context) {
 	task := FilterTask{
 		Action: AddElements,
 		Args:   req,
-		Resp:   make(chan interface{}),
+		Resp:   getChan(),
 	}
+	defer putChan(task.Resp)
 
 	select {
 	case worker.Queue <- task:
@@ -165,8 +166,9 @@ func checkElementsHandler(c *gin.Context) {
 	task := FilterTask{
 		Action: CheckElements,
 		Args:   req,
-		Resp:   make(chan interface{}),
+		Resp:   getChan(),
 	}
+	defer putChan(task.Resp)
 
 	select {
 	case worker.Queue <- task:

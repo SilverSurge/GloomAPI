@@ -4,6 +4,8 @@ import "github.com/gin-gonic/gin"
 
 func SetupRouter(router *gin.Engine) {
 
+	addChansToPool()
+
 	router.GET("/ping", pingHandler)
 
 	router.GET("/stats", statsHandler)
